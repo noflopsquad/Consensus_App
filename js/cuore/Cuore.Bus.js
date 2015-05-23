@@ -1,102 +1,8 @@
+"use strict";
+
 CUORE.Bus = (function(undefined) {
-
-    var subscriptions = [];
-    var debugModeON = false;
-
-    var subscribe = function(subscriber, eventName) {
-            if (!_validSubscriber(subscriber)) throw new Error("Not a subscriber (lacks eventDispatch function)");
-            if (!_subscriptionExists(subscriber, eventName)) {
-                subscriptions.push([subscriber, eventName]);
-            }
-        };
-
-    var unsubscribe = function(subscriber, events) {
-
-            if (typeof events == "string") {
-                _removeSubscription([subscriber, events]);
-                return;
-            }
-
-            for (var i = 0, len = events.length; i < len; i++) {
-                var theSubscription = [subscriber, events[i]];
-                _removeSubscription(theSubscription);
-            }
-        };
-
-    var hasSubscriptions = function() {
-            return (subscriptions.length > 0);
-        };
-
-    var subscribers = function(theEvent) {
-            var selectedSubscribers = [];
-            for (var i = 0, len = subscriptions.length; i < len; i++) {
-                var subscription = subscriptions[i];
-                if (subscription[1] === theEvent) {
-                    selectedSubscribers.push(subscription[0]);
-                }
-            }
-            return selectedSubscribers;
-        };
-
-    var emit = function(eventName, params) {
-            var subscribersList = this.subscribers(eventName);
-
-            debug("Bus.emit (event, params)");
-            debug(eventName);
-            debug(params);
-            debug("------------");
-
-            for (var i = 0, len = subscribersList.length; i < len; i++) {
-                subscribersList[i].eventDispatch(eventName, params);
-            }
-        };
-
-    
-    var _subscriptionExists = function(subscriber, eventName) {
-            var result = false;
-            var theSubscription = [subscriber, eventName];
-
-            for (var i = 0, len = subscriptions.length; i < len; i++) {
-                var subscription = subscriptions[i];
-                var sameSubscriber = (subscription[0] === theSubscription[0]);
-                var sameEvent = (subscription[1] === theSubscription[1]);
-                if (sameSubscriber && sameEvent) {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
-    var _removeSubscription = function(theSubscription) {
-
-            for (var i = 0, subscription; subscription = subscriptions[i]; i++) {
-                var sameSubscriber = (subscription[0] === theSubscription[0]);
-                var sameEvent = (subscription[1] === theSubscription[1]);
-                if (sameSubscriber && sameEvent) {
-                    subscriptions.splice(i, 1);
-                }
-            }
-
-        };
-
-    var _validSubscriber = function(subscriber) {
-            return subscriber.eventDispatch;
-        };
-
-    var debug = function(object) {
-            if (debugModeON) {
-                console.log(object);
-            }
-        };
-
-    var enableDebug = function() {
-            debugModeON = true;
-        }
-
-    var disableDebug = function() {
-            debugModeON = false;
-        }
+    var subscriptions = [],
+        debugModeON = false;
 
     return {
         subscribe: subscribe,
@@ -108,4 +14,112 @@ CUORE.Bus = (function(undefined) {
         disableDebug: disableDebug
     };
 
+    function aSubscription(subscriber, eventName) {
+        return {
+            subscriber: subscriber,
+            eventName: eventName,
+            equals: function(otherSubscription) {
+                var sameSubscriber = (this.subscriber === otherSubscription.subscriber),
+                    sameEvent = (this.eventName === otherSubscription.eventName);
+
+                return (sameSubscriber && sameEvent);
+            }
+        };
+    }
+
+    function subscribe (subscriber, eventName) {
+        if (!_validSubscriber(subscriber)) {
+            throw new Error("Not a subscriber (lacks eventDispatch function)");
+        }
+
+        if (!_subscriptionExists(subscriber, eventName)) {
+            subscriptions.push(aSubscription(subscriber, eventName));
+        }
+    }
+
+    function unsubscribe(subscriber, events) {
+        var i;
+
+        if (typeof events == "string") {
+            _removeSubscription(aSubscription(subscriber, events));
+            return;
+        }
+
+        for (i = 0; i < events.length; i++) {
+            _removeSubscription(aSubscription(subscriber, events[i]));
+        }
+    }
+
+    function hasSubscriptions() {
+        return (subscriptions.length > 0);
+    }
+
+    function subscribers(theEvent) {
+        var selectedSubscribers = [],
+            i, subscription,
+            len = subscriptions.length;
+
+        for (i = 0; i < len; i++) {
+            subscription = subscriptions[i];
+            if (subscription.eventName === theEvent) {
+                selectedSubscribers.push(subscription.subscriber);
+            }
+        }
+        return selectedSubscribers;
+    }
+
+    function emit(eventName, params) {
+        var subscribersList = this.subscribers(eventName),
+            i, len = subscribersList.length;
+
+        debug("Bus.emit (event, params)");
+        debug(eventName);
+        debug(params);
+        debug("------------");
+
+        for (i = 0; i < len; i++) {
+            subscribersList[i].eventDispatch(eventName, params);
+        }
+    }
+
+    function debug(object) {
+        if (debugModeON) {
+            console.log(object);
+        }
+    }
+
+    function enableDebug() {
+        debugModeON = true;
+    }
+
+    function disableDebug() {
+        debugModeON = false;
+    }
+
+    function _subscriptionExists(subscriber, eventName) {
+        var i, len = subscriptions.length,
+            theSubscription = aSubscription(subscriber, eventName);
+
+        for (i = 0; i < len; i++) {
+            if (theSubscription.equals(subscriptions[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function _removeSubscription(theSubscription) {
+        var i, len = subscriptions.length;
+
+        for (i = 0; i < len; i++) {
+            if (theSubscription.equals(subscriptions[i])) {
+                subscriptions.splice(i, 1);
+                return;
+            }
+        }
+    }
+
+    function _validSubscriber(subscriber) {
+        return subscriber.eventDispatch;
+    }
 })();
