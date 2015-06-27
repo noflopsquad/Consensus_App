@@ -1,3 +1,5 @@
+"use strict";
+
 describe("Core", function() {
 
     var head, scriptCore;

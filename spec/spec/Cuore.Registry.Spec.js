@@ -1,8 +1,10 @@
+"use strict";
+
 describe("A Registry", function() {
     var aRegistry;
 
     beforeEach(function() {
-        this.addMatchers({
+        jasmine.addMatchers({
             toHaveBeenCalledOnceWithTheComponent: CUORE.Matchers.toHaveBeenCalledOnceWithTheComponent
         });
 

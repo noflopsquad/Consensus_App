@@ -38,11 +38,16 @@ CUORE.Matchers = {
         return mostRecentCall.args[0] == expectedEventName && supposedToBeAHandler && typeof supposedToBeAHandler == 'object' && typeof supposedToBeAHandler.handle == 'function';
     },
 
-    toHaveBeenCalledOnceWithTheComponent: function(comp) {
-        var spy = this.actual;
-        this.message = function() {
-            return "Expected the spy " + jasmine.pp(spy) + " to have been called with the component " + comp.getName();
-        }
-        return spy.callCount == 1 && spy.mostRecentCall.args[0] == comp;
+    toHaveBeenCalledOnceWithTheComponent: function() {
+        return {
+            compare: function(actual, comp) {
+                var result = {};
+                result.pass = actual.calls.count() == 1 && actual.calls.mostRecent().args[0] == comp;
+                if (!result.pass) {
+                    result.message = "Expected the spy " + jasmine.pp(actual) + " to have been called with the component " + comp.getName();
+                }
+                return result;
+            }
+        };
     }
 };

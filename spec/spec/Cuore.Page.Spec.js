@@ -1,3 +1,5 @@
+"use strict";
+
 describe("Page", function() {
     var aPage;
 
@@ -26,7 +28,7 @@ describe("Page", function() {
         it("can lookup for services by name", function() {
             var aServiceName = "a service to be looked up";
             var expectedService = "resulting service";
-            directory.getService.andReturn(expectedService);
+            directory.getService.and.returnValue(expectedService);
 
             var aService = aPage.getService(aServiceName);
 
@@ -49,15 +51,15 @@ describe("Page", function() {
             aComponent, registry;
 
         beforeEach(function() {
-            registry = CUORE.Mocks.Registry();
-            aPage.setRegistry(registry);
-            aComponent = CUORE.Mocks.Component('fake');
-        }),
+                registry = CUORE.Mocks.Registry();
+                aPage.setRegistry(registry);
+                aComponent = CUORE.Mocks.Component('fake');
+            }),
 
-        it("registers component with the registry", function() {
-            aPage.addComponent(aComponent, testingContainer, true);
-            expect(registry.register).toHaveBeenCalledWith(aComponent);
-        });
+            it("registers component with the registry", function() {
+                aPage.addComponent(aComponent, testingContainer, true);
+                expect(registry.register).toHaveBeenCalledWith(aComponent);
+            });
 
         it("configures the component with the service directory", function() {
             var aDirectory = CUORE.Mocks.Directory();
@@ -79,11 +81,6 @@ describe("Page", function() {
             expect(registry.filterByName).toHaveBeenCalledWith('id');
         });
 
-        it("configures component with the Injecting behaviour provided", function() {
-            aPage.addComponent(aComponent, testingContainer, CUORE.Behaviours.REPLACE);
-            expect(aComponent.behave).toHaveBeenCalledWith(CUORE.Behaviours.REPLACE);
-        });
-
         it("lets component behaviour untouched by default", function() {
             aPage.addComponent(aComponent, testingContainer);
             expect(aComponent.behave).not.toHaveBeenCalled();
@@ -92,14 +89,13 @@ describe("Page", function() {
         it("calls component onEnvinromentUp after been register in the page", function() {
             var container = null;
             aComponent.setContainer = jasmine.createSpy('setContainer');
-            aComponent.onEnvironmentUp = function() {
-                expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
-            }
             aPage.addComponent(aComponent, testingContainer);
+
+            expect(aComponent.setContainer).toHaveBeenCalledWith(testingContainer);
         });
 
         it("and when the page is drawn, it will call draw in each component", function() {
-            registry.each.andCallFake(function(callback) {
+            registry.each.and.callFake(function(callback) {
                 callback(aComponent);
             });
 

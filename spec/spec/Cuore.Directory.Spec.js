@@ -1,14 +1,16 @@
+"use strict";
+
 describe("A Directory", function() {
 
     var aDirectory, defaultBaseUrl = "base URL";
     var mockService = function(name) {
-            var service = CUORE.Mocks.Service();
-            service.getName.andReturn(name);
-            return service;
-        };
+        var service = CUORE.Mocks.Service();
+        service.getName.and.returnValue(name);
+        return service;
+    };
 
     beforeEach(function() {
-        this.addMatchers({
+        jasmine.addMatchers({
             toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
         });
 
@@ -22,14 +24,6 @@ describe("A Directory", function() {
 
     it("has a Label service built-in with a proper base url", function() {
         expect(aDirectory.getService('LABELS').getBaseURL()).toEqual(defaultBaseUrl);
-    });
-
-    it("has a Button service built-in", function() {
-        expect(aDirectory.getService('BUTTON')).toBeInstanceOf(CUORE.Services.Button);
-    });
-
-    it("has a Button service built-in with a proper base url", function() {
-        expect(aDirectory.getService('BUTTON').getBaseURL()).toEqual(defaultBaseUrl);
     });
 
     describe("with a service called 'TAL'", function() {
@@ -59,7 +53,6 @@ describe("A Directory", function() {
             aDirectory.setBaseURL(anotherURL);
 
             expect(talService.setBaseURL).toHaveBeenCalledWith(anotherURL);
-            expect(aDirectory.getService('BUTTON').getBaseURL()).toEqual(anotherURL);
             expect(aDirectory.getService('LABELS').getBaseURL()).toEqual(anotherURL);
         });
 
@@ -92,7 +85,6 @@ describe("A Directory", function() {
             expect(talService.execute).not.toHaveBeenCalled();
         });
 
-
         it("when another service 'TAL' is added replaces old service", function() {
             var otherTal = mockService(tal);
 
@@ -100,7 +92,6 @@ describe("A Directory", function() {
 
             expect(aDirectory.getService(tal)).toBe(otherTal);
         });
-
 
         it(" getService('NOT EXISTS') will return an instance of NullService", function() {
             expect(aDirectory.getService('NOT EXISTS') instanceof CUORE.Services.Null).toBeTruthy();

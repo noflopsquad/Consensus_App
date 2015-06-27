@@ -1,5 +1,7 @@
+"use strict";
+
 describe("NameService", function() {
-    
+
     FIRST_NAMES = [
       "Jon","Alfred", "Mary"
     ];
@@ -18,7 +20,7 @@ describe("NameService", function() {
 
 
     beforeEach(function() {
-        
+
         aNameService = new Names();
         aNameService.setBaseURL(baseURL);
     });
@@ -53,13 +55,13 @@ describe("NameService", function() {
           var last = generatedName.split(" ")[2]
           expect(LAST_NAMES).toContain(last);
         });
-      
+
     });
 
     var retrieveGeneratedName = function() {
       spyOn(CUORE.Bus, "emit");
       aNameService.execute("generate",null);
-      
+
       var generatedName = CUORE.Bus.emit.calls.mostRecent().args[SECOND_ARGUMENT];
       return generatedName;
     };

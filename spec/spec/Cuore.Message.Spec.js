@@ -1,10 +1,12 @@
+"use strict";
+
 describe("Message", function() {
 
     var aMessage;
 
     beforeEach(function() {
         aMessage = new CUORE.Message();
-        this.addMatchers({
+        jasmine.addMatchers({
             toBeInstanceOf: CUORE.Matchers.toBeInstanceOf
         });
     });
