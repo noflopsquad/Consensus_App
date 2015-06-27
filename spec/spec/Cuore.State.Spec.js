@@ -12,6 +12,10 @@ describe("State", function() {
             });
         });
 
+        afterEach(function() {
+            localStorage.clear();
+        });
+
         it("is a State", function() {
             expect(aState).toBeInstanceOf(CUORE.State);
         });
