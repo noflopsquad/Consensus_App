@@ -1,15 +1,48 @@
 CUORE.State = CUORE.Class(null, {
-
     keys: undefined,
     map: undefined,
+    statePersister: undefined,
 
-    init: function() {
-        this.keys = [];
-        this.map = {};
+    init: function(statePersister) {
+        this._initialize_in_page();
+        this.statePersister = statePersister || CUORE.NullStatePersister();
     },
 
     hasKey: function(key) {
         return this.keys.indexOf(key) != -1;
+    },
+
+    save: function(key, value) {
+        if (key === undefined) {
+            return;
+        }
+
+        if (this._should_be_deleted(value)) {
+            this.delete(key);
+            return;
+        }
+
+        this._save_in_page(key, value);
+        this._persist(key, value);
+    },
+
+    delete: function(key) {
+        this._removeKey(key);
+        this.statePersister.remove(key);
+    },
+
+    retrieve: function(key) {
+        if (!this.hasKey(key)) {
+            this._save_in_page(
+                key,
+                this.statePersister.retrieve(key)
+            );
+        }
+        return this.map[key];
+    },
+
+    clear: function() {
+        this._initialize_in_page();
     },
 
     _addKey: function(key) {
@@ -21,38 +54,21 @@ CUORE.State = CUORE.Class(null, {
         this.keys.splice(this.keys.indexOf(key), 1);
     },
 
-    save: function(key, value) {
-        if (key === undefined) return;
-        if (value === undefined) return;
-        this._save_in_page(key,value);
-        this._save_local(key,value);
-    },
-
     _save_in_page: function(key, value) {
         this._addKey(key);
         this.map[key] = value;
     },
 
-    _save_local: function(key,value){
-        window.localStorage.setItem(key,value);
+    _persist: function(key, value) {
+        this.statePersister.save(key, value);
     },
 
-
-    _from_local: function(key){
-        var fromLocal = window.localStorage.getItem(key);
-        if (fromLocal != undefined){
-            this._save_in_page(key,fromLocal);
-        }
-        return fromLocal;
+    _should_be_deleted: function(value) {
+        return value === undefined || value === null;
     },
 
-    delete: function(key) {
-            this._removeKey(key);
-    },
-
-    retrieve: function(key) {
-        if (!this.hasKey(key)) return this._from_local(key);
-        return this.map[key];
+    _initialize_in_page: function() {
+        this.keys = [];
+        this.map = {};
     }
-    
 });

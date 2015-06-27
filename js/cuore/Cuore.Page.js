@@ -1,9 +1,9 @@
 CUORE.Page = CUORE.Class(null, {
 
-    init: function() {
+    init: function(statePersister) {
         this.components = new CUORE.Registry();
         this.services = new CUORE.Directory();
-        this.state = new CUORE.State();
+        this.state = new CUORE.State(statePersister);
         this.setUp();
     },
 
