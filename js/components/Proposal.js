@@ -44,11 +44,11 @@ Proposal = CUORE.Class(CUORE.Component, {
     },
 
     chooseMode: function(proposal){
-      if(!proposal){
-        this.mode="edit";
+      if(proposal){
+        this.mode="show";
       }
       else{
-        this.mode="show";
+        this.mode="edit";
       }
 
       this.updateRender(); 
@@ -80,7 +80,7 @@ Proposal = CUORE.Class(CUORE.Component, {
     },
 
     onEnvironmentUp: function(page) {
-      page.getService("PROPOSALS").execute("current");
+      this.execute("PROPOSALS","current");
     },
 
 });

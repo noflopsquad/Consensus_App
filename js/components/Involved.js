@@ -39,7 +39,7 @@ Involved = CUORE.Class(CUORE.Component, {
         this.updateInvolved(savedName);
         return;
       }
-      page.getService("NAMES").execute("generate");
+      this.execute("NAMES","generate");
     },
 
 });
