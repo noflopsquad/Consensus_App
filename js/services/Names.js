@@ -14,15 +14,7 @@ Names = CUORE.Class(CUORE.Service, {
         this.emit(eventName, name + SPACER + middle + SPACER + last);
     },
 
-    wrapRequestParams: function(params) {
-        return params;
-    },
-
-    wrapResponse: function(response) {
-        return response;
-    },
-
-    _getRandomInt:function (max) {
+   _getRandomInt:function (max) {
         return Math.floor(Math.random() * (max  + 1)) ;
     },
 

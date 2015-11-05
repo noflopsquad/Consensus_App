@@ -16,12 +16,4 @@ Proposals = CUORE.Class(CUORE.Service, {
         this.emit(eventName,currentproposal);
     },
 
-    wrapRequestParams: function(params) {
-        return params;
-    },
-
-    wrapResponse: function(response) {
-        return response;
-    },
-
 });

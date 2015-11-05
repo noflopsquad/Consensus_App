@@ -23,13 +23,4 @@ Questions = CUORE.Class(CUORE.Service, {
     
     },
 
-    wrapRequestParams: function(params) {
-        return params;
-    },
-
-    wrapResponse: function(response) {
-        return response;
-    },
-
-
 });
