@@ -7,7 +7,7 @@ Involved = CUORE.Class(CUORE.Component, {
     },
 
     _wireEvents: function() {
-      this.addExecHandler("NAMES_generate_EXECUTED","updateInvolved");
+      this.dispatchUsing("updateInvolved","NAMES_generate_EXECUTED");
     },
 
     draw: function(){

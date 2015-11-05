@@ -71,9 +71,9 @@ Proposal = CUORE.Class(CUORE.Component, {
     },
 
     _wireEvents: function() {
-      this.addExecHandler("proposal_submit","submitProposal");
-      this.addExecHandler("PROPOSALS_register_EXECUTED","chooseMode");
-      this.addExecHandler("PROPOSALS_current_EXECUTED","chooseMode");
+      this.dispatchUsing("submitProposal","proposal_submit");
+      this.dispatchUsing("chooseMode", "PROPOSALS_register_EXECUTED");
+      this.dispatchUsing("chooseMode", "PROPOSALS_current_EXECUTED");
     },
 
     onEnvironmentUp: function(page) {

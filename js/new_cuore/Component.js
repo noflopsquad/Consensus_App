@@ -1,7 +1,7 @@
 CUORE.Component = CUORE.Class(null, {
 
     init: function() {
-        this.setHandlerSet(new CUORE.HandlerSet());
+        this.eventHandler = new CUORE.EventHandler();
         this.name = this._generateUUID();
         this.procedure = 'nullProcedure';
         this.SEPARATOR = '_';
@@ -14,10 +14,6 @@ CUORE.Component = CUORE.Class(null, {
         this._startState();
         this._internationalize();
         this._wireEvents();
-    },
-
-    setHandlerSet: function(handlerSet) {
-        this.handlerSet = handlerSet;
     },
 
     setDirectory: function(directory) {
@@ -44,27 +40,25 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     eventDispatch: function(eventName, params) {
-        this.handlerSet.notifyHandlers(eventName, params);
+        this.eventHandler.notify(eventName, params);
     },
 
-    addHandler: function(eventName, handler) {
-        handler.setOwner(this);
-        this.handlerSet.register(eventName, handler);
+    dispatchWith: function(callback, eventName) {
+        this.eventHandler.register(eventName, callback);
         CUORE.Bus.subscribe(this, eventName);
     },
 
-    addExecHandler: function(eventName, handler) {
-        var self = this;
-        this.addHandler(eventName, 
-            {
-                handle: function(response) {
-                    self[handler].call(self, response);
-                }, 
-
-                setOwner: function(){},
-            });
+    dispatchUsing: function(procedureName, eventName) {
+        this.dispatchWith(this.generateCallback(procedureName), eventName);
     },
 
+    generateCallback: function(procedureName){
+        var self = this;
+        var callback = function(response) {
+            self[procedureName].call(self, response);
+        };
+        return callback;
+    },
 
     getText: function(key) {
         if(!key) return null;
@@ -85,7 +79,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     getManagedEvents: function() {
-        return this.handlerSet.getManagedEvents();
+        return this.eventHandler.getManagedEvents();
     },
 
     setText: function(aKey, aText) {
@@ -99,19 +93,19 @@ CUORE.Component = CUORE.Class(null, {
         this.setText(key, key);
 
         var self = this;
-        this.addHandler('LABELS_getLabel_EXECUTED_' + key, 
-            {
-                handle: function(response) {
-                    var theMessage = response;
-                    var text = theMessage.getFromAnswer('text');
-                    var key = theMessage.getFromQuery('key');
-                    
-                    if (text && key) self.setText(key, text);
-                }, 
-
-                setOwner: function(){},
-            });
+        var callback = function(response) {
+            self.updateTextFrom(response);
+        };
+        this.dispatchWith(callback, 'LABELS_getLabel_EXECUTED_' + key);
         this.requestLabelText(key);
+    },
+
+    updateTextFrom: function(response){
+        var theMessage = response;
+        var text = theMessage.getFromAnswer('text');
+        var key = theMessage.getFromQuery('key');
+
+        if (text && key) this.setText(key, text);
     },
 
     requestLabelText: function(aKey) {

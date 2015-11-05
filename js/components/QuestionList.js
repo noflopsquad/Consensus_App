@@ -25,8 +25,8 @@ QuestionList = CUORE.Class(CUORE.Component, {
     },
 
     _wireEvents: function() {
-      this.addExecHandler("QUESTIONS_register_EXECUTED","getQuestions");
-      this.addExecHandler("QUESTIONS_list_EXECUTED","showQuestions");
+      this.dispatchUsing("getQuestions", "QUESTIONS_register_EXECUTED");
+      this.dispatchUsing("showQuestions", "QUESTIONS_list_EXECUTED");
     },
 
     onEnvironmentUp: function(page) {

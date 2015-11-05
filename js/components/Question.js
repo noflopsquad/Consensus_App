@@ -42,8 +42,8 @@ Question = CUORE.Class(CUORE.Component, {
     },
 
     _wireEvents: function() {
-      this.addExecHandler("show_question_editor","showEditor");
-      this.addExecHandler("question_addressed","addressQuestion");
+      this.dispatchUsing("showEditor", "show_question_editor");
+      this.dispatchUsing("addressQuestion", "question_addressed");
     },
 
 });

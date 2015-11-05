@@ -1,36 +1,36 @@
-CUORE.HandlerSet = CUORE.Class(null, {
+CUORE.EventHandler = CUORE.Class(null, {
 
     init: function() {
         this.eventNames = [];
-        this.handlersForEvent = {};
+        this.callbackFor = {};
     },
 
-    register: function(eventName, aHandler) {
+    register: function(eventName, callback) {
         if (!this._contains(eventName)) {
             this.eventNames.push(eventName);
         }
 
-        var handlersForEvent = this.handlersForEvent[eventName] || (this.handlersForEvent[eventName] = []);
-        handlersForEvent.push(aHandler);
+        var callbackFor = this.callbackFor[eventName] || (this.callbackFor[eventName] = []);
+        callbackFor.push(callback);
     },
 
     getManagedEvents: function() {
         return this.eventNames;
     },
     
-    notifyHandlers: function(eventName, eventData) {
-        var handlersToNotify = this.handlersForEvent[eventName];
-        if (handlersToNotify) this._notify(handlersToNotify,eventData);
+    notify: function(eventName, eventData) {
+        var toNotify = this.callbackFor[eventName];
+        if (toNotify) this._notify(toNotify,eventData);
     },
     
-    _notify: function(handlersToNotify, eventData) {
-        for (var i = 0, len = handlersToNotify.length; i < len; i++) {
-            this._safeNotification(handlersToNotify[i], eventData);
+    _notify: function(toNotify, eventData) {
+        for (var i = 0, len = toNotify.length; i < len; i++) {
+            this._safeNotification(toNotify[i], eventData);
         }
     },
     
-    _safeNotification: function(handler, eventData) {
-        handler.handle(eventData);
+    _safeNotification: function(callback, eventData) {
+        callback(eventData);
     },
 
     _contains: function(eventName) {
