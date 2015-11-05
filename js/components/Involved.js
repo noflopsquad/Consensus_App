@@ -1,10 +1,12 @@
 Involved = CUORE.Class(CUORE.Component, {
 
-    init: function() {
-      Involved.parent.init.call(this);
+    _startState: function() {
       this.storeKey="person.involved.name";
       this.div = ReactClasses.involved();
       this.involved = "the person involved";
+    },
+
+    _wireEvents: function() {
       this.addExecHandler("NAMES_generate_EXECUTED","updateInvolved");
     },
 

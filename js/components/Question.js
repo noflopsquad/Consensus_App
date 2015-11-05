@@ -1,11 +1,8 @@
 Question = CUORE.Class(CUORE.Component, {
 
-    init: function() {
-      Question.parent.init.call(this);
+    _startState: function() {
       this.div = ReactClasses.question();
       this.show=false;
-      this._internationalize();
-      this._wireEvents();
     },
 
     draw: function(){

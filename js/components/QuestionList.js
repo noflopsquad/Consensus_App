@@ -1,10 +1,7 @@
 QuestionList = CUORE.Class(CUORE.Component, {
 
-    init: function() {
-      QuestionList.parent.init.call(this);
+    _startState:  function() {
       this.div = ReactClasses.questionList();
-      this._internationalize();
-      this._wireEvents();
     },
 
     draw: function(){

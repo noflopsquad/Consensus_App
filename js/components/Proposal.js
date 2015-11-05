@@ -1,12 +1,9 @@
 Proposal = CUORE.Class(CUORE.Component, {
 
-    init: function() {
-      Proposal.parent.init.call(this);
+    _startState: function() {
       this.adviceShown=false;
       this.mode=this.EDIT;
       this.div = ReactClasses.proposal();
-      this._internationalize();
-      this._wireEvents();
     },
 
     draw: function(){
