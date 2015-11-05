@@ -54,7 +54,15 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     addExecHandler: function(eventName, handler) {
-        this.addHandler(eventName, new CUORE.Handlers.Executor(handler));
+        var self = this;
+        this.addHandler(eventName, 
+            {
+                handle: function(response) {
+                    self[handler].call(self, response);
+                }, 
+
+                setOwner: function(){},
+            });
     },
 
 
