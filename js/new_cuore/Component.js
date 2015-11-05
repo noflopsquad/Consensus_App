@@ -90,7 +90,19 @@ CUORE.Component = CUORE.Class(null, {
 
         this.setText(key, key);
 
-        this.addHandler('LABELS_getLabel_EXECUTED_' + key, new CUORE.Handlers.SetText());
+        var self = this;
+        this.addHandler('LABELS_getLabel_EXECUTED_' + key, 
+            {
+                handle: function(response) {
+                    var theMessage = response;
+                    var text = theMessage.getFromAnswer('text');
+                    var key = theMessage.getFromQuery('key');
+                    
+                    if (text && key) self.setText(key, text);
+                }, 
+
+                setOwner: function(){},
+            });
         this.requestLabelText(key);
     },
 
