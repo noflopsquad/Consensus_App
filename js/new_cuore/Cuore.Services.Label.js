@@ -22,10 +22,12 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         var cachedLabel = this.fromCache(params.key);
 
         if (cachedLabel) {
-            var cachedResponse = new CUORE.Message();
-            cachedResponse.putMapOnQuery(params);
-            cachedResponse.putOnAnswer('text', cachedLabel);
-            CUORE.Services.Label.parent.emit.call(this, eventNameWithKey, cachedResponse.asJson());
+            var cachedResponse = {
+                key: params.key,
+                text: cachedLabel
+            };
+            
+            CUORE.Services.Label.parent.emit.call(this, eventNameWithKey, cachedResponse);
         } else {
             if (!params.locale) params.locale = this.locale;
             var url = this.getBaseURL() + '/labels/get';
@@ -46,13 +48,9 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
     emit: function(eventName, response) {
         var theKey = this.extractKey(eventName);
         if (!theKey) return;
-        var theMessage = new CUORE.Message(response);
-        var text = theMessage.getFromAnswer('text');
-        this.feedCache(theKey, text);
-        text = text || theKey;
-        theMessage.putOnAnswer('text', text);
-
-        CUORE.Services.Label.parent.emit.call(this, eventName, theMessage.asJson());
+        this.feedCache(theKey, response.text);
+        var text = response.text || theKey;
+        CUORE.Services.Label.parent.emit.call(this, eventName, response);
     },
 
     extractKey: function(eventName) {
@@ -62,14 +60,4 @@ CUORE.Services.Label = CUORE.Class(CUORE.Service, {
         return theKey;
     },
 
-    wrapRequest: function(params){
-        var theMessage = new CUORE.Message();
-        theMessage.putMapOnQuery(params);
-
-        return theMessage.asJson();
-    },
-
-    wrapResponse: function(response){
-        return new CUORE.Message(response);
-    },
 });
