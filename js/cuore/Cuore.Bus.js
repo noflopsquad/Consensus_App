@@ -95,10 +95,14 @@ CUORE.Bus = (function(undefined) {
 
         for (i = 0; i < len; i++) {
             if (theSubscription.equals(subscriptions[i])) {
-                subscriptions.splice(i, 1);
+                this._removeAt(subscriptions, i);
                 return;
             }
         }
+    }
+
+    function _removeAt (index, array) {
+        array.splice(index, 1);
     }
 
     function _validSubscriber(subscriber) {
