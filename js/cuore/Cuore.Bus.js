@@ -25,16 +25,14 @@ CUORE.Bus = (function(undefined) {
     }
 
     function unsubscribe(subscriber, events) {
-        var i;
-
         if (typeof events == "string") {
             _removeSubscription(_createSubscription(subscriber, events));
             return;
         }
 
-        for (i = 0; i < events.length; i++) {
-            _removeSubscription(_createSubscription(subscriber, events[i]));
-        }
+        events.forEach(function (event) {
+             _removeSubscription(_createSubscription(subscriber, event));
+        });
     }
 
     function hasSubscriptions() {
@@ -42,31 +40,28 @@ CUORE.Bus = (function(undefined) {
     }
 
     function subscribers(theEvent) {
-        var selectedSubscribers = [],
-            i, subscription,
-            len = subscriptions.length;
+        var selectedSubscribers = [];
 
-        for (i = 0; i < len; i++) {
-            subscription = subscriptions[i];
+        subscriptions.forEach(function (subscription) {
             if (subscription.eventName === theEvent) {
                 selectedSubscribers.push(subscription.subscriber);
             }
-        }
+        });
+
         return selectedSubscribers;
     }
 
     function emit(eventName, params) {
-        var subscribersList = this.subscribers(eventName),
-            i, len = subscribersList.length;
+        var subscribersList = this.subscribers(eventName);
 
         debug("Bus.emit (event, params)");
         debug(eventName);
         debug(params);
         debug("------------");
 
-        for (i = 0; i < len; i++) {
-            subscribersList[i].eventDispatch(eventName, params);
-        }
+        subscribersList.forEach(function (current) {
+             current.eventDispatch(eventName, params);
+        });
     }
 
     function debug(object) {
