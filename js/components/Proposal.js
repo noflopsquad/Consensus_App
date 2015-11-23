@@ -3,16 +3,21 @@ Proposal = CUORE.Class(CUORE.Component, {
     _startState: function() {
       this.adviceShown=false;
       this.mode=this.EDIT;
-      this.div = ReactClasses.proposal();
+      this._declareRenderer();
+    },
+
+    _declareRenderer: function(){
+      this.renderer = Renderers.proposal();
     },
 
     draw: function(){
-      React.render(
-        React.createElement(this.div,this._prepareData()),
-        document.getElementById(this.container)
-      );
+      this.doRender();
 
       grande.bind(document.querySelectorAll("article.edit"));
+    },
+
+    doRender: function(){
+      this.renderer.doRender(this.container, this._prepareData());
     },
 
     _prepareData: function(){

@@ -1,14 +1,19 @@
 QuestionList = CUORE.Class(CUORE.Component, {
 
     _startState:  function() {
-      this.div = ReactClasses.questionList();
+      this._declareRenderer();
+    },
+
+    _declareRenderer: function(){
+      this.renderer = Renderers.questionList();
     },
 
     draw: function(){
-      React.render(
-        React.createElement(this.div,this._prepareData()),
-        document.getElementById(this.container)
-      );
+      this.doRender();
+    },
+
+    doRender: function(){
+      this.renderer.doRender(this.container, this._prepareData());
     },
 
     _prepareData: function(){

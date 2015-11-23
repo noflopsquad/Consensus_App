@@ -14,6 +14,7 @@ CUORE.Component = CUORE.Class(null, {
         this._startState();
         this._internationalize();
         this._wireEvents();
+        this._declareRenderer();
     },
 
     setDirectory: function(directory) {
@@ -25,7 +26,7 @@ CUORE.Component = CUORE.Class(null, {
     },
 
     updateRender: function() {
-      if(!this.container) return;
+        if(!this.container) return;
         this.draw();
     },
 
@@ -74,7 +75,7 @@ CUORE.Component = CUORE.Class(null, {
         this.name = aName;
     },
 
-     setContainer: function(container) {
+    setContainer: function(container) {
       this.container=container
     },
 
@@ -155,5 +156,13 @@ CUORE.Component = CUORE.Class(null, {
 
     _wireEvents: function() {
     },
+
+    _declareRenderer: function(){
+        this.renderer = {
+            doRender: function(){
+                throw "you need to implement 'doRender' in your Component renderers";
+            }
+        };
+    }
 
 });

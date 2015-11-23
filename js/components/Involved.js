@@ -2,8 +2,12 @@ Involved = CUORE.Class(CUORE.Component, {
 
     _startState: function() {
       this.storeKey="person.involved.name";
-      this.div = ReactClasses.involved();
+      this._declareRenderer();
       this.involved = "the person involved";
+    },
+
+    _declareRenderer: function(){
+      this.renderer = Renderers.involved();
     },
 
     _wireEvents: function() {
@@ -11,14 +15,15 @@ Involved = CUORE.Class(CUORE.Component, {
     },
 
     draw: function(){
-      var container=this.container;
-      var box = this.div;
-     
+      this.doRender();
+    },
 
-      React.render(
-        React.createElement(box,{"name": this.involved}),
-        document.getElementById(container)
-      );
+    doRender: function(){
+      this.renderer.doRender(this.container, this._prepareData());
+    },
+
+    _prepareData: function(){
+      return {"name": this.involved};
     },
 
     updateInvolved: function(response) {

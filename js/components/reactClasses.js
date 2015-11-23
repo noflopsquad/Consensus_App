@@ -1,4 +1,15 @@
-ReactClasses={
+Renderers={
+  makeCuoreRenderer: function(renderer){
+    return {
+      renderer: renderer,
+      doRender: function(container, data){
+          React.render(
+            React.createElement(this.renderer,data),
+            document.getElementById(container)
+          );
+      }
+    }
+  },
 
   involved: function(){
     var comment = React.createClass({
@@ -7,7 +18,7 @@ ReactClasses={
         return (React.createElement("p",{className: "navbar-text"},this.props.name));
       }
     });
-    return comment;
+    return Renderers.makeCuoreRenderer(comment);
   },
 
   clarifyingQuestion: function(){
@@ -38,7 +49,7 @@ ReactClasses={
       renderQuestions: function(){
         var questions = this.props.questions.map(function (aQuestion) {
             return (
-              React.createElement(ReactClasses.clarifyingQuestion(), aQuestion)
+              React.createElement(Renderers.clarifyingQuestion(), aQuestion)
             );
           });
         return questions;
@@ -48,10 +59,10 @@ ReactClasses={
         var hidden="";
         if (this.props.questions.length == 0 ) hidden="hidden";
         return hidden;
-      }
+      },
 
     });
-    return list;
+    return Renderers.makeCuoreRenderer(list);
   },
 
 
@@ -106,7 +117,6 @@ ReactClasses={
         return React.createElement("button",{"onClick": this.send},this.props.action);
       },
 
-
       questionButton: function  () {
         return React.createElement("button",{"onClick": this.ask},this.props.ask);
       },
@@ -121,7 +131,7 @@ ReactClasses={
       }
 
     });
-    return proposal;
+    return Renderers.makeCuoreRenderer(proposal);
   },
 
   question: function(){
@@ -216,7 +226,7 @@ ReactClasses={
       }
 
     });
-    return question;
+    return Renderers.makeCuoreRenderer(question);
   }
 
 };

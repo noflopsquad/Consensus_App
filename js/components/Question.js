@@ -1,16 +1,21 @@
 Question = CUORE.Class(CUORE.Component, {
 
     _startState: function() {
-      this.div = ReactClasses.question();
+      this._declareRenderer();
       this.show=false;
     },
 
+    _declareRenderer: function(){
+      this.renderer = Renderers.question();
+    },
+
     draw: function(){
-      React.render(
-        React.createElement(this.div,this._prepareData()),
-        document.getElementById(this.container)
-      );
+      this.doRender();
       grande.bind(document.querySelectorAll("article.clarifying_question"));
+    },
+    
+    doRender: function(){
+      this.renderer.doRender(this.container, this._prepareData());
     },
 
     showEditor: function(){
