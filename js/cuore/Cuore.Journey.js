@@ -2,11 +2,14 @@ CUORE.Journey = CUORE.Class(null, {
 
     init: function(start, end) {
         var allValues = (start && end);
+        var minutesInADay;
 
         this.itsGranularity = 60;
         this.minutesInAnHour = 60;
+        minutesInADay = 24 * this.minutesInAnHour;
+
         this.start = (allValues) ? this._convertToMinutesDay(start) : 0;
-        this.end = (allValues) ? this._convertToMinutesDay(end) : 1440;
+        this.end = (allValues) ? this._convertToMinutesDay(end) : minutesInADay;
     },
 
     starts: function() {
