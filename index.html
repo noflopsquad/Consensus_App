@@ -10,99 +10,82 @@
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+      <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/bootstrap-theme.min.css">
       <link rel="stylesheet" href="css/bootsketch.css">
-      <link rel="stylesheet" href="css/menu.css">
-      <link rel="stylesheet" href="css/editor.css">
       <link rel="stylesheet" href="css/main.css">
 
-      <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+      <link rel="import"  href="js/vendor/polymer-1.7.1/polymer.html">
+      <link rel="import" href="js/polymer/con-involved.html">
+
+      
   </head>
   <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Consensus</a>
-        </div>
-          <div class="collapse navbar-collapse" id="involved">
-            <p class="navbar-text">The person involved</p>
-          </div>
-      </div>
-    </nav>
-
-
 
     <div class="container">
-      <section id="proposal">
-        <article>
-          <h1>This is a proposal</h1>
-          <p>Here is the text of our proposal</p>
-        </article>
-        <button>submit the proposal</button>
-      </section>
+      <nav class="navbar  navbar-inverse " role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Consensus</a>
+          </div>
+            <div class="collapse navbar-collapse" >
+              <p class="navbar-text">
+                <con-involved handle="tal"></con-involved>
+              </p>
+            </div>
+        </div>
+      </nav>
 
-      <section id="questions">
-        <span id="theQuestion"></span>
-        <span id="questionList"></span>
-      </section>
 
-      <button onclick="localStorage.clear();window.location.reload(false)">empieza de nuevo</button>
-      <footer>
-        <p>&copy; Consensus</p>
-      </footer>
 
+      <div class="container">
+        <section id="proposal">
+          <article>
+            <h1>This is a proposal</h1>
+            <p>Here is the text of our proposal</p>
+          </article>
+          <button>submit the proposal</button>
+        </section>
+
+        <section id="questions">
+          <span id="theQuestion"></span>
+          <span id="questionList"></span>
+        </section>
+
+        <button onclick="localStorage.clear();window.location.reload(false)">empieza de nuevo</button>
+        <footer>
+          <p>&copy; Consensus</p>
+        </footer>
+
+      </div>
     </div>
-
-
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-      <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
-      <script src="js/vendor/bootstrap.min.js"></script>
-      <script src="js/vendor/react.min.js"></script>
-      <script src="js/vendor/grande.js"></script>
-
-      <script src="js/cuore/Cuore.js"></script>
-      <script src="js/cuore/Cuore.Class.js"></script>
-      <script src="js/cuore/Cuore.Core.js"></script>
-      <script src="js/cuore/Cuore.Bus.js"></script>
-      <script src="js/cuore/Cuore.Dom.js"></script>
-      <script src="js/cuore/Cuore.Page.js"></script>
-      <script src="js/cuore/Cuore.Registry.js"></script>
-      <script src="js/cuore/Cuore.Directory.js"></script>
-      <script src="js/cuore/Cuore.StatePersister.js"></script>
-      <script src="js/cuore/Cuore.State.js"></script>
-      <script src="js/new_cuore/Component.js"></script>
-      <script src="js/cuore/Cuore.HandlerSet.js"></script>
       
+      <script src='js/vendor/lodash/lodash-4.14.0.js'></script>
+      <script src='js/vendor/class-256/class.js'></script>
+      <script src='js/vendor/postal/postal-2.0.4.js'></script>
+      <script src='js/vendor/aja/aja-0.4.1.js'></script>
+
+      <script src='js/essence/page.js'></script>
+      <script src='js/essence/bus.js'></script>
+      <script src='js/essence/service.js'></script>
+      <script src='js/essence/component.js'></script>
+      <script src='js/essence/subscribable.js'></script>
+      <script src='js/essence/enrolable.js'></script>
       
-      <script src="js/new_cuore/Cuore.Service.js"></script>
-      <script src="js/new_cuore/Cuore.Services.Label.js"></script>
-      <script src="js/cuore/Services/Cuore.Services.Null.js"></script>
+      <script src="js/services/names.js"></script>
 
+      <script src="js/components/involved.js"></script>
 
-      <script src="js/services/Names.js"></script>
-      <script src="js/services/Proposals.js"></script>
-      <script src="js/services/Questions.js"></script>
-      <script src="js/components/reactClasses.js"></script>
-      <script src="js/components/Involved.js"></script>
-      <script src="js/components/Proposal.js"></script>
-      <script src="js/components/Question.js"></script>
-      <script src="js/components/QuestionList.js"></script>
-      <script src="js/pages/FirstTime.js"></script>
-
-      <script src="js/names.js"></script>
-
-      <script src="js/main.js"></script>
+      <script src="js/pages/main.js"></script>
 
   </body>
 </html>

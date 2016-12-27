@@ -1,0 +1,58 @@
+FIRST_NAMES = [
+  'Alligator','Bat','Bear','Bison','Bobcat','Butterfly','Caribou','Cat',
+  'Condor','Crab','Crocodile','Deer','Dog','Dolphin','Elephant','Falcon','Ferret',
+  'Fisher','Fox','Frog','Goat','Hummingbird','Kangaroo','Koala','Leopard','Lion',
+  'Lynx','Manatee','Ocelot','','Otter','Owl','Panther','Parrot','Pelican','Penguin',
+  'Puma','Rabbit','Shark','Sheep','Snake','Spider','Squirrel','Terrapin','Tiger','Turtle',
+  'Walrus','Warbler','Whale','Wolf'
+];
+
+MIDDLE_NAMES = [
+  'Acrion','Aedesia','Aenesidemus','Aesara','Brontinus','Callicles','Calliphon','Callistratus',
+  'Carneades','Damascius','Democrates','Demonax','Echecrates','Empedocles','Epicurus',
+  'Eubulides','Favorinus','Geminus','Gorgias','Hegias','Heraclitus','Hypatia','Leucippus','Maximus',
+  'Menedemus','Monimus','Nicomachus','Onasander','Onatas','Panaetius','Panthoides','Phaedrus',
+  'Philiscus','Phintys','Plotinus','Polus','Sallustius','Siro','Sosipatra','Stilpo','Syrianus','Telauges',
+  'Theano','Themistius','Timycha','Xeniades','Xenocrates','Zenobius','Zenodotus'
+];  
+
+LAST_NAMES = [
+  'Armand','Bayer','Beccari','Berdyaev','Bontemps','Bové','Brophy','Camus','Caplan','Carter',
+  'Comfort','Day','Ellul','Fimmen','Franklin','Freinet','Goodman','Hennacy','Hiratsuka','Hiratsuka',
+  'Igualada','Kelly','Keyes','Khein','Landauer','Lecoin','Light','McCarthy','Montelius','Moreau','Moura',
+  'Nieuwenhuis','Ostergaard','Pankhurst','Philips','Poch','Rankin','Relgis','Ryner','Saulière','Selenka',
+  'Starhawk','Stewart','Tolstoy','Vonnegut','Westerweel','Willcox','Wolfe','Woodcock'
+];
+
+var Names = Service.extend(function(){
+  this.SERVICE = 'names';
+
+  this._subscribe = function() {
+    this._subscribeTo('generate.name', this.generate);
+  };
+
+  this.generate = function(){
+    Bus.publish({
+      channel: this.SERVICE,
+      topic: "name.generated",
+      data: this._compose()
+    });
+  };
+
+  this._compose = function() {
+    var SPACER = " ";
+    var name = this._pickRandom( FIRST_NAMES );
+    var middle = this._pickRandom( MIDDLE_NAMES );
+    var last = this._pickRandom( LAST_NAMES ); 
+    return (name + SPACER + middle + SPACER + last);
+  };
+
+  this._getRandomInt=function (max) {
+    return Math.floor(Math.random() * (max  + 1)) ;
+  };
+
+  this._pickRandom=function (pool) {
+    return pool[this._getRandomInt(pool.length - 1)] ;
+  };
+
+});

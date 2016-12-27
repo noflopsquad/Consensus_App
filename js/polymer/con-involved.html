@@ -1,0 +1,22 @@
+<link rel="import"  href="/js/vendor/polymer-1.7.1/polymer.html">
+<dom-module id="con-involved">
+
+  <template>
+    <p>{{handle}}</p>
+  </template>
+
+  <script>
+    Polymer({
+      is: "con-involved",
+      properties: {
+        handle:{
+          type: String,
+          value: "The person involved",
+          reflectToAttribute: true,
+          notify: true
+        }
+      }
+    });
+  </script>
+
+</dom-module>

@@ -1,4 +1,4 @@
-(function() {
+function() {
   /*jshint multistr:true */
   var EDGE = -999;
 
