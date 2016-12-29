@@ -1,0 +1,8 @@
+version: '2'
+services:
+ consensus_app:
+    image: fnichol/uhttpd
+    ports:
+      - 80:80
+    volumes:
+      - ./:/www
