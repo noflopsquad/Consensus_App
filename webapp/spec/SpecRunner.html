@@ -2,23 +2,53 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Jasmine Spec Runner v2.3.2</title>
+  <title>Jasmine Spec Runner v2.4.1</title>
 
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.3.2/jasmine_favicon.png">
-  <link rel="stylesheet" href="lib/jasmine-2.3.2/jasmine.css">
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.4.1/jasmine_favicon.png">
+  <link rel="stylesheet" href="lib/jasmine-2.4.1/jasmine.css">
 
-  <script src="lib/jasmine-2.3.2/jasmine.js"></script>
-  <script src="lib/jasmine-2.3.2/jasmine-html.js"></script>
-  <script src="lib/jasmine-2.3.2/boot.js"></script>
+  <script src="lib/jasmine-2.4.1/jasmine.js"></script>
+  <script src="lib/jasmine-2.4.1/jasmine-html.js"></script>
+  <script src="lib/jasmine-2.4.1/console.js"></script>
+  <script src="lib/jasmine-2.4.1/boot.js"></script>
+  <script src="lib/jasmine-2.4.1/mock-ajax.js"></script>
+  <script src="lib/recon_matchers.js"></script>
 
-  <!-- include source files here... -->
- 
+  <script src='../js/vendor/lodash/lodash-4.14.0.js'></script>
+  <script src='../js/vendor/class-256/class.js'></script>
+  <script src='../js/vendor/postal/postal-2.0.4.js'></script>
+  <script src='../js/vendor/aja/aja-0.4.1.js'></script>
+  <script src='../js/vendor/metronic/assets/global/plugins/moment.min.js'></script>
 
-  <!-- include spec files here... -->
-  
-  <script src="spec/SpecHelper.js"></script>
+  <script src='../js/essence/bus.js'></script>
+  <script src='../js/essence/session.js'></script>
+  <script src='../js/essence/subscribable.js'></script>
+  <script src='../js/essence/enrolable.js'></script>
+  <script src='../js/essence/service.js'></script>
+  <script src='../js/essence/authorized.js'></script>
+  <script src='../js/essence/component.js'></script>
+  <script src='../js/essence/page.js'></script>
+  <script src='../js/essence/dropdown.js'></script>
 
+  <script src='essence/subscribable.spec.js'></script>
+  <script src='essence/enrolable.spec.js'></script>
+  <script src='essence/component.spec.js'></script>
+  <script src='essence/service.spec.js'></script>
+  <script src='essence/authorized.spec.js'></script>
+  <script src='essence/page.spec.js'></script>
+  <script>
+    if (navigator.userAgent.indexOf("PhantomJS") > 0) {
+      var consoleReporter = new jasmineRequire.ConsoleReporter()({
+        showColors: true,
+        timer: new jasmine.Timer,
+        print: function() {
+          console.log.apply(console, arguments)
+        }
+      });
 
+      jasmine.getEnv().addReporter(consoleReporter);
+    }
+  </script>
 </head>
 
 <body>
