@@ -1,8 +1,15 @@
 version: '2'
 services:
- consensus_app:
+  consensus_app:
     image: fnichol/uhttpd
     ports:
       - 80:80
     volumes:
-      - ./:/www
+      - ./webapp/.:/www
+
+  identities:
+    build: ./identities
+    ports:
+      - 8080:8080
+    volumes:
+      - './identities:/myapp'
